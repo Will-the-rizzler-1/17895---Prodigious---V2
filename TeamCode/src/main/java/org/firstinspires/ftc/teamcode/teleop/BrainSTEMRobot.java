@@ -39,16 +39,6 @@ public class BrainSTEMRobot {
         subsystem.add(whisk);
     }
 
-    public BrainSTEMRobot(Telemetry telemetry, HardwareMap hardwareMap, Gamepad gamepad1, Telemetry telemetry1) {
-        this.telemetry = telemetry1;
-    }
-
-    public BrainSTEMRobot(Telemetry telemetry, HardwareMap hardwareMap, Pose2d Pose) {
-    }
-
-    public BrainSTEMRobot(HardwareMap hardwareMap, Telemetry telemetry) {
-    }
-
 
     public void update() {
         for (Component c : subsystem) {

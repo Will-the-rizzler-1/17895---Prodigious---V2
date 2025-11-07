@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -15,7 +16,9 @@ public class TeleOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry);
 
-        BrainSTEMRobot robot = new BrainSTEMRobot(hardwareMap, telemetry);
+        Pose2d BeginPose = new Pose2d(64.5, 16.5, Math.toRadians(0));
+
+        BrainSTEMRobot robot = new BrainSTEMRobot(hardwareMap, telemetry, BeginPose);
         gp1 = new GamepadTracker(gamepad1);
 
         waitForStart();
