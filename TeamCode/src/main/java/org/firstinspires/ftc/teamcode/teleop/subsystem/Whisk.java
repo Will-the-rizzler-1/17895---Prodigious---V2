@@ -62,8 +62,8 @@ public class Whisk implements Component {
         WhiskController.setOutputBounds(-0.1, 0.1);
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
-        WhiskMotor = hardwareMap.get(DcMotorEx.class, "WhiskMotor");
-        Flick = hardwareMap.get(ServoImplEx.class, "Flick");
+        WhiskMotor = hardwareMap.get(DcMotorEx.class, "whisk");
+        Flick = hardwareMap.get(ServoImplEx.class, "flick");
         Flick.setPwmRange(new PwmControl.PwmRange(WHISK_PARAMS.FlickLow, WHISK_PARAMS.FlickBallHeight));
         WhiskMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         WhiskMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

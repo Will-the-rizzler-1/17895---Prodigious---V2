@@ -186,11 +186,11 @@ public final class TuningOpModes {
                         MecanumDrive.PARAMS.minProfileAccel,
                         MecanumDrive.PARAMS.maxProfileAccel,
                         encoderGroups,
-                        Arrays.asList(
+                        (List<? extends com.qualcomm.robotcore.hardware.DcMotorEx>) Arrays.asList(
                                 md.leftFront,
                                 md.leftBack
                         ),
-                        Arrays.asList(
+                        (List<? extends com.qualcomm.robotcore.hardware.DcMotorEx>) Arrays.asList(
                                 md.rightFront,
                                 md.rightBack
                         ),

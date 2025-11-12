@@ -91,10 +91,10 @@ public class PIDDrivetrain {
 
 
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "FL");
-        leftBack = hardwareMap.get(DcMotorEx.class, "BL");
-        rightBack = hardwareMap.get(DcMotorEx.class, "BR");
-        rightFront = hardwareMap.get(DcMotorEx.class, "FR");
+        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
+        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
+        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
+        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
 
         rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
         rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
