@@ -36,7 +36,7 @@ public class TeleOp extends LinearOpMode {
     }
 
     private void updateDrive(BrainSTEMRobot robot) {
-        robot.drive.drive.setDrivePowers(new PoseVelocity2d(
+        robot.drive.setDrivePowers(new PoseVelocity2d(
                 new Vector2d(
                         -gamepad1.left_stick_y,
                         -gamepad1.left_stick_x
