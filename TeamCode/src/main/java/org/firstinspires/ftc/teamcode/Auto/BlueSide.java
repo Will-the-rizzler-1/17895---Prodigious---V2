@@ -31,7 +31,7 @@ public class BlueSide extends LinearOpMode {
         Pose2d BeginPose = new Pose2d(64.5, 16.5, Math.toRadians(0));
         Pose2d ShootPose = new Pose2d(36,40, Math.toRadians(120));
 
-        BrainSTEMRobot robot = new BrainSTEMRobot(telemetry, hardwareMap, BeginPose);
+        BrainSTEMRobot robot = new BrainSTEMRobot(hardwareMap, telemetry, BeginPose);
         PinpointDrive drive = robot.drive;
         AutoCommands autoCommands = new AutoCommands(robot, telemetry);
 
