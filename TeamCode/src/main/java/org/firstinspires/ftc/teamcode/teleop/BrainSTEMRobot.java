@@ -14,8 +14,9 @@ import org.firstinspires.ftc.teamcode.teleop.subsystem.Whisk;
 import java.util.ArrayList;
 
 public class BrainSTEMRobot {
-    private final Telemetry telemetry;
-    HardwareMap map;
+    Telemetry telemetry;
+    HardwareMap hardwareMap;
+    Pose2d pose;
     public Collector collector;
     public Shooter shooter;
     public Whisk whisk;
@@ -24,14 +25,15 @@ public class BrainSTEMRobot {
 
 
     private ArrayList<Component> subsystem;
-    public BrainSTEMRobot(HardwareMap map, Telemetry telemetry) {
-        this.map = map;
+    public BrainSTEMRobot(HardwareMap hardwareMap, Telemetry telemetry, Pose2d pose) {
+        this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
+        this.pose = pose;
         subsystem = new ArrayList<>();
-        collector = new Collector(map, telemetry);
-        drive = new BasicDrive(map, telemetry);
-        shooter = new Shooter(map, telemetry);
-        whisk = new Whisk(map, telemetry);
+        collector = new Collector(hardwareMap, telemetry);
+        drive = new PinpointDrive(hardwareMap, telemetry,pose);
+        shooter = new Shooter(hardwareMap, telemetry);
+        whisk = new Whisk(hardwareMap, telemetry);
         subsystem.add(collector);
         subsystem.add(drive);
         subsystem.add(shooter);

@@ -7,10 +7,12 @@ import com.acmerobotics.roadrunner.ftc.FlightRecorder;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.messages.PoseMessage;
+import org.firstinspires.ftc.teamcode.teleop.Component;
 import org.firstinspires.ftc.teamcode.util.GoBildaPinpointDriverRR;
 
 /**
@@ -20,7 +22,22 @@ import org.firstinspires.ftc.teamcode.util.GoBildaPinpointDriverRR;
  * Portions of this code made and released under the MIT License by Gobilda (Base 10 Assets, LLC)
  * Unless otherwise noted, comments are from Gobilda
  */
-public class PinpointDrive extends MecanumDrive {
+public class PinpointDrive extends MecanumDrive implements Component {
+    @Override
+    public void reset() {
+
+    }
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public String test() {
+        return "";
+    }
+
     public static class Params {
         /*
         Set the odometry pod positions relative to the point that the odometry computer tracks around.
@@ -58,9 +75,9 @@ public class PinpointDrive extends MecanumDrive {
 
     public static Params PARAMS = new Params();
     public GoBildaPinpointDriverRR pinpoint;
-    private Pose2d lastPinpointPose = pose;
+    public Pose2d lastPinpointPose = pose;
 
-    public PinpointDrive(HardwareMap hardwareMap, Pose2d pose) {
+    public PinpointDrive(HardwareMap hardwareMap, Telemetry telemetry, Pose2d pose) {
         super(hardwareMap, pose);
         FlightRecorder.write("PINPOINT_PARAMS",PARAMS);
         pinpoint = hardwareMap.get(GoBildaPinpointDriverRR.class,"odo");
