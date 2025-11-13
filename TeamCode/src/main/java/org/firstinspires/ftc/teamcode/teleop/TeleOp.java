@@ -12,12 +12,11 @@ import org.firstinspires.ftc.teamcode.util.GamepadTracker;
 public class TeleOp extends LinearOpMode {
 
     GamepadTracker gp1;
-    Pose2d pose;
 
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry);
 
-        BrainSTEMRobot robot = new BrainSTEMRobot(hardwareMap, telemetry, pose);
+        BrainSTEMRobot robot = new BrainSTEMRobot(hardwareMap, telemetry, new Pose2d(0, 0, 0));
         gp1 = new GamepadTracker(gamepad1);
 
         waitForStart();
