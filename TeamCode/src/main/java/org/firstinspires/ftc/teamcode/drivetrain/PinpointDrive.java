@@ -80,7 +80,7 @@ public class PinpointDrive extends MecanumDrive implements Component {
     public PinpointDrive(HardwareMap hardwareMap, Telemetry telemetry, Pose2d pose) {
         super(hardwareMap, pose);
         FlightRecorder.write("PINPOINT_PARAMS",PARAMS);
-        pinpoint = hardwareMap.get(GoBildaPinpointDriverRR.class,"odo");
+        pinpoint = hardwareMap.get(GoBildaPinpointDriverRR.class,"pinpoint");
 
         // RR localizer note: don't love this conversion (change driver?)
         pinpoint.setOffsets(DistanceUnit.MM.fromInches(PARAMS.xOffset), DistanceUnit.MM.fromInches(PARAMS.yOffset), DistanceUnit.MM);
