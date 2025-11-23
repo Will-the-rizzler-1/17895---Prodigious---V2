@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.teleop.subsystem;
 import android.annotation.SuppressLint;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -10,12 +12,16 @@ import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.teamcode.teleop.BrainSTEMRobot;
 import org.firstinspires.ftc.teamcode.teleop.Component;
 
 @Config
 public class Shooter implements Component {
 
     Telemetry telemetry;
+
     HardwareMap map;
     public ServoImplEx hood;
 
@@ -29,17 +35,19 @@ public class Shooter implements Component {
     public ShooterState shooterState;
     public DcMotorEx shooterMotorL;
     public DcMotorEx shooterMotorR;
+    public BrainSTEMRobot robot;
 
     public static class Params {
         public double SHOOTER_POWER = 0.99;
         public double HOODCLOSE = 1400;
         public double HOODFAR = 850;
+        public double HOODINC = 0.05;
     }
 
     public static Params SHOOTER_PARAMS = new Params();
 
     @SuppressLint("NotConstructor")
-    public Shooter(HardwareMap map, Telemetry telemetry) {
+    public Shooter(HardwareMap map, Telemetry telemetry, BrainSTEMRobot robot) {
         this.map = map;
         this.telemetry = telemetry;
 
@@ -56,6 +64,12 @@ public class Shooter implements Component {
     }
 
     public void update() {
+//        Pose3D botPose = robot.limelight.update();
+//        robot.drive.pinpoint.setPosition(new Pose2d(
+//                botPose.getPosition().x,
+//                botPose.getPosition().y,
+//                botPose.getOrientation().getYaw(AngleUnit.RADIANS))
+//        );
         switch (shooterState) {
             case OFF:
                 shooterOff();
@@ -74,11 +88,12 @@ public class Shooter implements Component {
         double velocityTicksPerSecondL = shooterMotorL.getVelocity();
         double velocityTicksPerSecondR = shooterMotorR.getVelocity();
 
+
         telemetry.addData("Shooter Power L", getShooterPowerL());
         telemetry.addData("Shooter Power R", getShooterPowerR());
         telemetry.addData("Velocity L (ticks/s)", velocityTicksPerSecondL);
         telemetry.addData("Velocity R (ticks/s)", velocityTicksPerSecondR);
-        telemetry.update();
+        telemetry.addData("hoodpwm", getHoodPos());
     }
 
     public void setShooterPower(double power) {
@@ -99,6 +114,10 @@ public class Shooter implements Component {
 
     public double getShooterPowerR() {
         return shooterMotorR.getPower();
+    }
+
+    public double getHoodPos() {
+        return hood.getPosition();
     }
 
     private void shooterOff() {
@@ -123,6 +142,12 @@ public class Shooter implements Component {
 
     public void HoodFarPos() {
         hood.setPosition(0.99);
+    }
+    public void HoodInc() {
+        hood.setPosition(hood.getPosition() + SHOOTER_PARAMS.HOODINC);
+    }
+    public void HoodDec() {
+        hood.setPosition(hood.getPosition() - SHOOTER_PARAMS.HOODINC);
     }
 
     public void HoodClosePos() {

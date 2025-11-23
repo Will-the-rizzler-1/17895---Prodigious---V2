@@ -31,10 +31,10 @@ public class Whisk implements Component {
         public double FlickMin = 0.01;
         public double FlickLow = 620;
         public double FlickBallHeight = 1120;
-        public double WhiskKp = 0.05;
+        public double WhiskKp = 0.0355;
         public double WhiskKd = 0.001;
         public double WhiskKi = 0;
-        public double WhiskKs = 67;
+        public double WhiskKs = 0;
         public double COLLECT1 = 67;
         public double COLLECT2 = 67;
         public double COLLECT3 = 67;
@@ -58,8 +58,7 @@ public class Whisk implements Component {
 
     public Whisk(HardwareMap hardwareMap, Telemetry telemetry) {
         WhiskController = new PIDController(WHISK_PARAMS.WhiskKp, WHISK_PARAMS.WhiskKi, WHISK_PARAMS.WhiskKd, telemetry);
-        WhiskController.setInputBounds(0, 1500);
-        WhiskController.setOutputBounds(-0.1, 0.1);
+        WhiskController.setOutputBounds(0, 0.2);
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
         WhiskMotor = hardwareMap.get(DcMotorEx.class, "whisk");
@@ -107,7 +106,7 @@ public class Whisk implements Component {
 
     public void update() {
         setMotorPower(-WhiskController.update(WhiskMotor.getCurrentPosition()));
-        if(FlickTimer.seconds()>0.5){
+        if(FlickTimer.seconds()>0.15){
             RestFlick();
         }
     }
@@ -116,7 +115,6 @@ public class Whisk implements Component {
         double pidPower = -WhiskController.update(WhiskMotor.getCurrentPosition());
 
         telemetry.addData("WhiskController Target", WhiskController.getTarget());
-        telemetry.addData("WhiskMotor Position", WhiskMotor.getTargetPosition());
         telemetry.addData("WhiskMotor Power", WhiskMotor.getPower());
         telemetry.addData("Whisk State", whiskState);
         telemetry.addData("Whisk Encoders", WhiskMotor.getCurrentPosition());
@@ -134,6 +132,7 @@ public class Whisk implements Component {
         targetEncoder -= WHISK_PARAMS.encodersPerRev/6;
         WhiskController.setTarget(targetEncoder);
     }
+
 
     public void LiftFlick() {
         Flick.setPosition(0.99);

@@ -18,6 +18,7 @@ public class BrainSTEMRobot {
     HardwareMap hardwareMap;
     Pose2d pose;
     public Collector collector;
+    public LimeLight limelight;
     public Shooter shooter;
     public Whisk whisk;
 
@@ -31,8 +32,9 @@ public class BrainSTEMRobot {
         this.pose = pose;
         subsystem = new ArrayList<>();
         collector = new Collector(hardwareMap, telemetry);
+        limelight = new LimeLight(hardwareMap, telemetry);
         drive = new PinpointDrive(hardwareMap, telemetry,pose);
-        shooter = new Shooter(hardwareMap, telemetry);
+        shooter = new Shooter(hardwareMap, telemetry, this);
         whisk = new Whisk(hardwareMap, telemetry);
         subsystem.add(collector);
         subsystem.add(drive);
@@ -52,6 +54,5 @@ public class BrainSTEMRobot {
         for (Component c : subsystem) {
             c.update();
         }
-        telemetry.update();
     }
 }
