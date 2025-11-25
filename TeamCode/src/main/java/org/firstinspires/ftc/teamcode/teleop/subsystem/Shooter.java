@@ -38,10 +38,11 @@ public class Shooter implements Component {
     public BrainSTEMRobot robot;
 
     public static class Params {
-        public double SHOOTER_POWER = 0.99;
+        public double SHOOTER_POWER = 0.70;
         public double HOODCLOSE = 1400;
-        public double HOODFAR = 850;
+        public double HOODFAR = 650;
         public double HOODINC = 0.05;
+        public double SHOOT37 = 0.55;
     }
 
     public static Params SHOOTER_PARAMS = new Params();
@@ -93,7 +94,7 @@ public class Shooter implements Component {
         telemetry.addData("Shooter Power R", getShooterPowerR());
         telemetry.addData("Velocity L (ticks/s)", velocityTicksPerSecondL);
         telemetry.addData("Velocity R (ticks/s)", velocityTicksPerSecondR);
-        telemetry.addData("hoodpwm", getHoodPos());
+        telemetry.addData("hoodpos", getHoodPos());
     }
 
     public void setShooterPower(double power) {
@@ -131,13 +132,13 @@ public class Shooter implements Component {
     }
 
     private void shooterSpeed90() {
-        shooterMotorL.setPower(-0.90);
-        shooterMotorR.setPower(0.90);
+        shooterMotorL.setPower(-SHOOTER_PARAMS.SHOOT37);
+        shooterMotorR.setPower(SHOOTER_PARAMS.SHOOT37);
     }
 
     private void shooterSpeed80() {
-        shooterMotorL.setPower(-0.80);
-        shooterMotorR.setPower(0.80);
+        shooterMotorL.setPower(-0.70);
+        shooterMotorR.setPower(0.70);
     }
 
     public void HoodFarPos() {

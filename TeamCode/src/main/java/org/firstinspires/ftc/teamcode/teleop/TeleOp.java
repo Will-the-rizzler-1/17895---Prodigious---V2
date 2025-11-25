@@ -90,6 +90,10 @@ public class TeleOp extends LinearOpMode {
                     robot.whisk.setFlickUp();
                 }
 
+                if (gamepad2.a){
+                    robot.whisk.turnWhisk60();
+                }
+
 
 
                 if (gp1.isFirstDpadLeft()) {// rotates 60 counter clockwise
@@ -105,7 +109,7 @@ public class TeleOp extends LinearOpMode {
                     robot.collector.setOff();
                 }
 
-                if (gamepad1.a) {
+                if (gamepad1.aWasReleased()) {
                     if (robot.shooter.shooterState == Shooter.ShooterState.OFF) {
                         robot.shooter.setShoot();
                     } else {
@@ -113,7 +117,7 @@ public class TeleOp extends LinearOpMode {
                     }
                 }
 
-                if (gamepad1.b && (robot.shooter.shooterState == Shooter.ShooterState.OFF || robot.shooter.shooterState == Shooter.ShooterState.SHOOTBASE)) {
+                if (gamepad1.bWasReleased() && (robot.shooter.shooterState == Shooter.ShooterState.OFF || robot.shooter.shooterState == Shooter.ShooterState.SHOOTBASE)) {
                     robot.shooter.setShoot90();
                 }
                 if (gamepad1.x && (robot.shooter.shooterState == Shooter.ShooterState.OFF || robot.shooter.shooterState == Shooter.ShooterState.SHOOTBASE || robot.shooter.shooterState == Shooter.ShooterState.SHOOT90)) {

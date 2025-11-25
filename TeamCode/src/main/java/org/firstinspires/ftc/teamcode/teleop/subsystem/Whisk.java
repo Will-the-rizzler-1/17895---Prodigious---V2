@@ -127,8 +127,8 @@ public class Whisk implements Component {
         WhiskController.setTarget(targetEncoder);
     }
     public void turnWhisk60() {
-        whiskPos = (whiskPos + 1 + 1) % 6;
-        targetEncoder += WHISK_PARAMS.encodersPerRev/6;
+        whiskPos = (whiskPos + 1) % 6;
+        targetEncoder += WHISK_PARAMS.encodersPerRev/18;
         WhiskController.setTarget(targetEncoder);
 
     }
