@@ -42,7 +42,7 @@ public class Shooter implements Component {
         public double HOODCLOSE = 1400;
         public double HOODFAR = 650;
         public double HOODINC = 0.05;
-        public double SHOOT37 = 0.55;
+        public double SHOOT37 = 0.47;
     }
 
     public static Params SHOOTER_PARAMS = new Params();
