@@ -35,12 +35,6 @@ public class Whisk implements Component {
         public double WhiskKd = 0.001;
         public double WhiskKi = 0;
         public double WhiskKs = 0;
-        public double COLLECT1 = 67;
-        public double COLLECT2 = 67;
-        public double COLLECT3 = 67;
-        public double SHOOT1 = 67;
-        public double SHOOT2 = 67;
-        public double SHOOT3 = 67;
         public double MAX_POWER_COUNTER_CLOCKWISE = -0.25;
         public double MAX_POWER_CLOCKWISE = 0.25;
         public double encodersPerRev = 145;
@@ -107,7 +101,7 @@ public class Whisk implements Component {
     public void update() {
         setMotorPower(-WhiskController.update(WhiskMotor.getCurrentPosition()));
         if(FlickTimer.seconds()>0.15){
-            RestFlick();
+            setFlickBase();
         }
     }
 
@@ -132,13 +126,19 @@ public class Whisk implements Component {
         targetEncoder -= WHISK_PARAMS.encodersPerRev/6;
         WhiskController.setTarget(targetEncoder);
     }
+    public void turnWhisk60() {
+        whiskPos = (whiskPos + 1 + 1) % 6;
+        targetEncoder += WHISK_PARAMS.encodersPerRev/6;
+        WhiskController.setTarget(targetEncoder);
+
+    }
 
 
-    public void LiftFlick() {
+    public void setFlickUp() {
         Flick.setPosition(0.99);
         FlickTimer.reset();
     }
-    public void RestFlick() {
+    public void setFlickBase() {
         Flick.setPosition(0.01);
     }
     public int getWhiskPos() {

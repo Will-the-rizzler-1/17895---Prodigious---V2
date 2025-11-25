@@ -87,8 +87,9 @@ public class TeleOp extends LinearOpMode {
 
 
                 if (gamepad1.dpad_up) {
-                    robot.whisk.LiftFlick();
+                    robot.whisk.setFlickUp();
                 }
+
 
 
                 if (gp1.isFirstDpadLeft()) {// rotates 60 counter clockwise
