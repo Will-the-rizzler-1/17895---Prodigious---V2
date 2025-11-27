@@ -250,6 +250,20 @@ public final class MecanumDrive {
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
+    public void aimAtAprilTag(double tx) {
+        double KpAim = 0.035;
+        double turn = KpAim * tx;
+
+        // Clamp
+        turn = Math.max(-0.35, Math.min(0.35, turn));
+
+        leftFront.setPower(turn);
+        leftBack.setPower(turn);
+        rightFront.setPower(-turn);
+        rightBack.setPower(-turn);
+    }
+
+
 
     public void setDrivePowers(PoseVelocity2d powers) {
         MecanumKinematics.WheelVelocities<Time> wheelVels = new MecanumKinematics(1).inverse(

@@ -20,24 +20,45 @@ public class TeleOp extends LinearOpMode {
 
     GamepadTracker gp1;
 
+    @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry);
 
         BrainSTEMRobot robot = new BrainSTEMRobot(hardwareMap, telemetry, new Pose2d(0, 0, 0));
         gp1 = new GamepadTracker(gamepad1);
 
+        // ⭐ NEW — Create Limelight
+        LimeLight limelight = new LimeLight(hardwareMap, telemetry);
+
         waitForStart();
 
         while (opModeIsActive()) {
+
+            // ⭐ ALWAYS update Limelight and robot
+            limelight.update();
             robot.update();
-            updateDrive(robot);
+
+            // ⭐ AUTO-ALIGN MODE (right bumper held)
+            if (gamepad2.bWasReleased() && limelight.hasTarget()) {
+                double tx = limelight.getTx();
+                robot.drive.aimAtAprilTag(tx);  // rotate toward tag
+            }
+            else {
+                // Normal drive when not auto-aligning
+                updateDrive(robot);
+            }
+
+            // other subsystems
             updateDriver1(robot);
             gp1.update();
             robot.whisk.getWhiskTelemetry();
-            telemetry.update();
 
+            telemetry.addData("Limelight tx", limelight.getTx());
+            telemetry.addData("Has Target?", limelight.hasTarget());
+            telemetry.update();
         }
     }
+
 
     private void updateDriver1(BrainSTEMRobot robot) {
         driver1CollectorControls(robot);
@@ -85,8 +106,7 @@ public class TeleOp extends LinearOpMode {
                     robot.shooter.HoodInc();
                 }
 
-
-                if (gamepad1.dpad_up) {
+                if (gamepad1.dpad_up && robot.shooter.isVelocityAtThreshold()) {
                     robot.whisk.setFlickUp();
                 }
 

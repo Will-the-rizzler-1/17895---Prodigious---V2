@@ -34,12 +34,13 @@ public class BrainSTEMRobot {
         collector = new Collector(hardwareMap, telemetry);
         limelight = new LimeLight(hardwareMap, telemetry);
         drive = new PinpointDrive(hardwareMap, telemetry,pose);
-        shooter = new Shooter(hardwareMap, telemetry, this);
+        shooter = new Shooter(hardwareMap, telemetry, limelight, drive);
         whisk = new Whisk(hardwareMap, telemetry);
         subsystem.add(collector);
         subsystem.add(drive);
         subsystem.add(shooter);
         subsystem.add(whisk);
+        subsystem.add(limelight);
     }
 
     public BrainSTEMRobot(Telemetry telemetry, HardwareMap hardwareMap, Gamepad gamepad1, Telemetry telemetry1) {
