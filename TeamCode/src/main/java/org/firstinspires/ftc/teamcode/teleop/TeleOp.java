@@ -14,8 +14,8 @@ import org.firstinspires.ftc.teamcode.util.PIDController;
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp", group="Tele")
 public class TeleOp extends LinearOpMode {
 
-    public double goalX = 0, goalY = 0;
-    public static double kP = 0.1, kI = 0, kD = 0;
+    public double goalX = 60, goalY = -60;
+    public static double kP = 0.035, kI = 0, kD = 0;
     public PIDController pid = new PIDController(kP, kI, kD);
 
     GamepadTracker gp1;
@@ -39,23 +39,24 @@ public class TeleOp extends LinearOpMode {
             robot.update();
 
             // ⭐ AUTO-ALIGN MODE (right bumper held)
-            if (gamepad2.bWasReleased() && limelight.hasTarget()) {
-                double tx = limelight.getTx();
-                robot.drive.aimAtAprilTag(tx);  // rotate toward tag
-            }
-            else {
-                // Normal drive when not auto-aligning
-                updateDrive(robot);
-            }
-
-            // other subsystems
+//            if (gamepad2.bWasReleased() && limelight.hasTarget()) {
+//                double tx = limelight.getTx();
+//                robot.drive.aimAtAprilTag(tx);  // rotate toward tag
+//            }
+//            else {
+//                // Normal drive when not auto-aligning
+//                updateDrive(robot);
+//            }
+//
+//            // other subsystems
             updateDriver1(robot);
             gp1.update();
             robot.whisk.getWhiskTelemetry();
-
-            telemetry.addData("Limelight tx", limelight.getTx());
+            updateDrive(robot);
+//
+//            telemetry.addData("Limelight tx", limelight.getTx());
             telemetry.addData("Has Target?", limelight.hasTarget());
-            telemetry.update();
+//            telemetry.update();
         }
     }
 
@@ -63,13 +64,32 @@ public class TeleOp extends LinearOpMode {
     private void updateDriver1(BrainSTEMRobot robot) {
         driver1CollectorControls(robot);
     }
+//    private static double angleDifference(double target, double current) {
+//        double diff = target - current;
+//        while (diff > Math.PI) diff -= 2 * Math.PI;
+//        while (diff < -Math.PI) diff += 2 * Math.PI;
+//        return diff;
+//    }
+
 
     private void updateDrive(BrainSTEMRobot robot) {
-        if (gamepad1.dpad_down) {
+        LimeLight limelight = new LimeLight(hardwareMap, telemetry);
+
+        if (gamepad1.dpad_down && limelight.hasTarget()) {
+            double tx = robot.limelight.getTx();
+            double ty = robot.limelight.getTy();
+//            double robotX = robot.drive.pinpoint.getXOffset(DistanceUnit.INCH);
+//            double robotY = robot.drive.pinpoint.getYOffset(DistanceUnit.INCH);
+
             double targetAngle = Math.atan2(goalY - robot.drive.pinpoint.getVelY(DistanceUnit.INCH), goalX - robot.drive.pinpoint.getVelX(DistanceUnit.INCH));
             double robotHeading = robot.drive.pinpoint.getHeading(AngleUnit.RADIANS);
-            pid.setTarget(targetAngle);
+
+            // Calculate shortest angle difference [-pi, pi]
+//            double error = angleDifference(targetAngle, robotHeading);
+
+            pid.setTarget(targetAngle); // We want error to be zero
             double power = pid.update(robotHeading);
+
             robot.drive.setDrivePowers(new PoseVelocity2d(
                     new Vector2d(
                             -gamepad1.left_stick_y,
@@ -77,7 +97,15 @@ public class TeleOp extends LinearOpMode {
                     ),
                     -power
             ));
+
+            telemetry.addData("Target Angle (deg)", Math.toDegrees(targetAngle));
+            telemetry.addData("Robot Heading (deg)", Math.toDegrees(robotHeading));
+//            telemetry.addData("Angle Error (deg)", Math.toDegrees(error));
+            telemetry.addData("PID output power", power);
+            telemetry.update();
         }
+
+
         else {
             robot.drive.setDrivePowers(new PoseVelocity2d(
                     new Vector2d(
